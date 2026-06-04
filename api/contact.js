@@ -1,6 +1,14 @@
-const { Resend } = require('resend');
+const nodemailer = require('nodemailer');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: 'smtpout.secureserver.net',
+  port: 465,
+  secure: true, // SSL
+  auth: {
+    user: 'info@ovuscare.com',
+    pass: process.env.TITAN_EMAIL_PASSWORD,
+  },
+});
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -14,10 +22,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    await resend.emails.send({
-      // Update 'from' to 'noreply@ovuscare.com' once ovuscare.com is verified in Resend.
-      // Until then, Resend's shared domain works for testing but marks sender as onboarding@resend.dev.
-      from: 'OvusCare <onboarding@resend.dev>',
+    await transporter.sendMail({
+      from: '"OvusCare" <info@ovuscare.com>',
       to: 'info@ovuscare.com',
       replyTo: email,
       subject: `Demo Request from ${clinic || name}`,
@@ -36,7 +42,7 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({ ok: true });
   } catch (error) {
-    console.error('Resend error:', error);
+    console.error('Nodemailer error:', error);
     return res.status(500).json({ error: 'Failed to send email' });
   }
 };
