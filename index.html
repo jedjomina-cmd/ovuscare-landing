@@ -989,14 +989,30 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
   });
 });
 
-function submitForm() {
-  const name = document.getElementById('f-name').value;
-  const clinic = document.getElementById('f-clinic').value;
-  const email = document.getElementById('f-email').value;
+async function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const clinic = document.getElementById('f-clinic').value.trim();
+  const email = document.getElementById('f-email').value.trim();
   if (!name || !email) { alert('Please fill in your name and email.'); return; }
-  window.location.href = `mailto:info@ovuscare.com?subject=Demo Request from ${clinic || name}&body=Name: ${name}%0AClinic: ${clinic}%0AEmail: ${email}`;
-  document.getElementById('form-fields').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, clinic, email }),
+    });
+    if (!res.ok) throw new Error('Server error');
+    document.getElementById('form-fields').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  } catch {
+    btn.disabled = false;
+    btn.textContent = translations[currentLang]?.['modal.submit'] || 'Send Message →';
+    alert('Something went wrong. Please email us directly at info@ovuscare.com');
+  }
 }
 
 // Sticky nav
@@ -1030,7 +1046,7 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         <label style="font-size:.8rem;font-weight:500;color:var(--dark);display:block;margin-bottom:.4rem" data-i18n="modal.email">Email</label>
         <input id="f-email" type="email" placeholder="anna@fertilityclinic.de" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s" onfocus="this.style.borderColor='#0D9488'" onblur="this.style.borderColor='#E2E8F0'">
       </div>
-      <button onclick="submitForm()" style="width:100%;background:var(--green);color:white;border:none;padding:14px;border-radius:8px;font-size:.95rem;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#14B8A6'" onmouseout="this.style.background='#0D9488'" data-i18n="modal.submit">Send Message →</button>
+      <button id="submit-btn" onclick="submitForm()" style="width:100%;background:var(--green);color:white;border:none;padding:14px;border-radius:8px;font-size:.95rem;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#14B8A6'" onmouseout="this.style.background='#0D9488'" data-i18n="modal.submit">Send Message →</button>
     </div>
     <div id="form-success" style="display:none;text-align:center;padding:2rem 0">
       <div style="font-size:2.5rem;margin-bottom:1rem">✅</div>
