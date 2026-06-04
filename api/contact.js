@@ -2,8 +2,9 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
   host: 'smtpout.secureserver.net',
-  port: 465,
-  secure: true, // SSL
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: 'info@ovuscare.com',
     pass: process.env.TITAN_EMAIL_PASSWORD,
@@ -42,8 +43,14 @@ module.exports = async (req, res) => {
 
     return res.status(200).json({ ok: true });
   } catch (error) {
-    console.error('Nodemailer error:', error);
-    return res.status(500).json({ error: 'Failed to send email' });
+    console.error('Nodemailer error code:', error.code);
+    console.error('Nodemailer error message:', error.message);
+    console.error('Nodemailer response:', error.response);
+    return res.status(500).json({
+      error: 'Failed to send email',
+      code: error.code,
+      message: error.message,
+    });
   }
 };
 
