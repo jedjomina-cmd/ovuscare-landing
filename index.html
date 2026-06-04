@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OvusCare — AI Companion for IVF Clinics</title>
+<meta name="description" content="AI-powered patient companion that reduces dropout, answers questions 24/7 and guides IVF patients between appointments.">
+<meta property="og:title" content="OvusCare — AI Companion for IVF Clinics">
+<meta property="og:description" content="Keep your patients supported, informed and moving forward — 24/7.">
+<meta property="og:url" content="https://ovuscare.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#1A2B2B;
+  --green:#0D9488;
+  --green-light:#E6F7F5;
+  --green-mid:#14B8A6;
+  --white:#FFFFFF;
+  --bg:#F8FAFA;
+  --muted:#64748B;
+  --border:#E2E8F0;
+  --text:#0F1A1A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;transition:all .3s}
+nav.scrolled{background:rgba(26,43,43,0.95);backdrop-filter:blur(12px)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-bar{width:3px;height:32px;background:var(--green);border-radius:2px}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1}
+.nav-logo-ovus{font-size:14px;font-weight:600;color:var(--white);letter-spacing:.05em}
+.nav-logo-care{font-size:11px;font-weight:400;color:var(--green);letter-spacing:.2em}
+.nav-right{display:flex;align-items:center;gap:1.5rem}
+.lang-switcher{position:relative;display:inline-block}
+.lang-main-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--white);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;padding:6px 12px;border-radius:6px;display:flex;align-items:center;gap:6px;letter-spacing:.05em;transition:all .2s}
+.lang-main-btn:hover{background:rgba(255,255,255,.12)}
+.lang-main-btn svg{transition:transform .2s}
+.lang-main-btn.open svg{transform:rotate(180deg)}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--dark);border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;min-width:100px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.lang-dropdown.open{display:block}
+.lang-dropdown-item{display:block;width:100%;padding:8px 16px;background:none;border:none;color:rgba(255,255,255,.6);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:left;letter-spacing:.05em;transition:all .2s}
+.lang-dropdown-item:hover{background:rgba(255,255,255,.08);color:var(--white)}
+.lang-dropdown-item.active{color:var(--green-mid)}
+/* Footer lang switcher stays simple */
+.footer-lang{display:flex;gap:4px}
+.lang-btn{background:none;border:none;color:rgba(255,255,255,.5);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;padding:4px 8px;border-radius:4px;transition:all .2s;letter-spacing:.05em}
+.lang-btn.active{color:var(--white);background:rgba(255,255,255,.1)}
+.nav-cta{background:var(--green);color:var(--white);padding:8px 20px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:500;transition:all .2s}
+.nav-cta:hover{background:var(--green-mid);transform:translateY(-1px)}
+
+/* HERO */
+.hero{background:var(--dark);min-height:100vh;display:flex;align-items:center;padding:100px 2rem 80px;position:relative;overflow:hidden}
+.hero-bg-circle-1{position:absolute;right:-10%;top:5%;width:500px;height:500px;border-radius:50%;border:1px solid rgba(13,148,136,.15)}
+.hero-bg-circle-2{position:absolute;right:2%;top:15%;width:320px;height:320px;border-radius:50%;border:1px solid rgba(13,148,136,.2)}
+.hero-bg-circle-3{position:absolute;right:8%;top:22%;width:160px;height:160px;border-radius:50%;background:rgba(13,148,136,.08)}
+.hero-content{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.hero-label{display:inline-block;background:rgba(13,148,136,.15);color:var(--green-mid);font-size:12px;font-weight:500;letter-spacing:.1em;padding:6px 14px;border-radius:20px;margin-bottom:2rem;border:1px solid rgba(13,148,136,.25)}
+.hero-headline{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5vw,4rem);color:var(--white);line-height:1.15;max-width:700px;margin-bottom:1.5rem}
+.hero-headline em{font-style:italic;color:var(--green-mid)}
+.hero-tagline{font-size:1.05rem;color:rgba(255,255,255,.65);max-width:520px;margin-bottom:2.5rem;line-height:1.7}
+.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.btn-primary{background:var(--green);color:var(--white);padding:14px 28px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--green-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(13,148,136,.3)}
+.btn-secondary{background:rgba(255,255,255,.08);color:var(--white);padding:14px 28px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:500;border:1px solid rgba(255,255,255,.15);transition:all .2s}
+.btn-secondary:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.hero-trust{display:flex;gap:1.5rem;flex-wrap:wrap}
+.trust-badge{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.45);font-size:12px}
+.trust-dot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* SECTIONS */
+section{padding:80px 2rem}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.15em;color:var(--green);text-transform:uppercase;margin-bottom:1rem}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--dark);line-height:1.2;margin-bottom:1rem}
+.section-subtitle{font-size:1rem;color:var(--muted);max-width:560px;line-height:1.7}
+
+/* PROBLEM */
+.problem{background:var(--bg)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin:3rem 0 2rem}
+.stat-card{background:var(--white);border-radius:12px;padding:2rem;border:1px solid var(--border);transition:transform .2s}
+.stat-card:hover{transform:translateY(-3px)}
+.stat-number{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--green);line-height:1;margin-bottom:.75rem}
+.stat-desc{font-size:.9rem;color:var(--muted);line-height:1.5}
+.problem-bar{background:var(--dark);border-radius:12px;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:2rem}
+.problem-bar-text{color:rgba(255,255,255,.7);font-size:.95rem}
+.problem-bar-text strong{color:var(--green-mid)}
+.problem-bar-cta{color:var(--green-mid);font-size:.85rem;text-decoration:none;font-weight:500;white-space:nowrap}
+.problem-bar-cta:hover{text-decoration:underline}
+
+/* SOLUTION */
+.solution-banner{background:var(--green);border-radius:12px;padding:1.5rem 2rem;margin-bottom:3rem;display:flex;align-items:center;gap:1.5rem}
+.solution-banner-stat{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--white);white-space:nowrap}
+.solution-banner-text{color:rgba(255,255,255,.9);font-size:.95rem;line-height:1.5}
+.solution-banner-text strong{color:var(--white)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin:2rem 0}
+.feature-card{background:var(--white);border-radius:12px;padding:1.75rem;border:1px solid var(--border);transition:all .2s}
+.feature-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 12px 32px rgba(13,148,136,.1)}
+.feature-icon{font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:1rem;width:32px;height:32px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.feature-title{font-size:1rem;font-weight:600;color:var(--dark);margin-bottom:.5rem}
+.feature-desc{font-size:.875rem;color:var(--muted);line-height:1.6}
+.section-cta{text-align:center;margin-top:2.5rem}
+.section-cta a{color:var(--green);font-size:.9rem;font-weight:500;text-decoration:none}
+.section-cta a:hover{text-decoration:underline}
+
+/* HOW IT WORKS */
+.how{background:var(--bg)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;margin:3rem 0 2rem;position:relative}
+.step{position:relative}
+.step-number{width:48px;height:48px;border-radius:50%;background:var(--green);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.4rem;margin-bottom:1.25rem}
+.step-title{font-size:1rem;font-weight:600;color:var(--dark);margin-bottom:.5rem}
+.step-desc{font-size:.875rem;color:var(--muted);line-height:1.6}
+.how-note{background:var(--green-light);border-radius:8px;padding:1rem 1.5rem;display:inline-flex;align-items:center;gap:.75rem;margin-top:1.5rem}
+.how-note span{font-size:.875rem;color:var(--green);font-weight:500}
+
+/* DEMO */
+.demo{background:var(--dark)}
+.demo .section-title{color:var(--white)}
+.demo .section-subtitle{color:rgba(255,255,255,.6)}
+.demo .section-label{color:var(--green-mid)}
+.screenshots{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:3rem 0 1rem}
+@media(max-width:640px){.screenshots{grid-template-columns:1fr}}
+.browser-window{background:rgba(255,255,255,.05);border-radius:12px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+.browser-bar{background:rgba(255,255,255,.08);padding:10px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.08)}
+.browser-dot{width:10px;height:10px;border-radius:50%}
+.browser-dot.red{background:#FF5F57}
+.browser-dot.yellow{background:#FFBD2E}
+.browser-dot.green{background:#28C840}
+.browser-url{margin-left:8px;font-size:11px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:3px 12px;border-radius:4px;flex:1}
+.browser-content{height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.75rem}
+.browser-content-icon{font-size:2rem;opacity:.3}
+.browser-content-label{font-size:.8rem;color:rgba(255,255,255,.4);text-align:center}
+.demo-note{text-align:center;color:rgba(255,255,255,.4);font-size:.825rem;margin-top:1rem}
+.demo-note a{color:var(--green-mid);text-decoration:none}
+.demo-note a:hover{text-decoration:underline}
+
+/* PILOT */
+.pilot-header{text-align:center;margin-bottom:3rem}
+.pilot-header .section-subtitle{margin:0 auto}
+.pilot-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+@media(max-width:640px){.pilot-grid{grid-template-columns:1fr}}
+.pilot-card-free{background:var(--white);border-radius:12px;padding:2rem;border:1px solid var(--border)}
+.pilot-card-price{background:var(--dark);border-radius:12px;padding:2rem}
+.pilot-card-tag{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:1.25rem}
+.pilot-checklist{list-style:none;margin-top:1.25rem}
+.pilot-checklist li{display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:var(--muted);padding:.5rem 0;border-bottom:1px solid var(--border)}
+.pilot-checklist li:last-child{border-bottom:none}
+.check-icon{width:18px;height:18px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.check-icon svg{width:10px;height:10px}
+.price-label{font-size:.8rem;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.price-amount{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--green-mid);line-height:1}
+.price-period{font-size:.9rem;color:rgba(255,255,255,.5);margin-bottom:1.5rem}
+.price-features{list-style:none}
+.price-features li{font-size:.85rem;color:rgba(255,255,255,.55);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.price-features li:last-child{border-bottom:none}
+.pilot-bottom{background:var(--green-light);border-radius:10px;padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem}
+.pilot-bottom-text{font-size:.9rem;color:var(--green);font-weight:500}
+.pilot-cta{text-align:center}
+.btn-large{background:var(--dark);color:var(--white);padding:16px 40px;border-radius:8px;text-decoration:none;font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:10px;transition:all .2s}
+.btn-large:hover{background:#0f1f1f;transform:translateY(-2px);box-shadow:0 12px 32px rgba(26,43,43,.25)}
+
+/* FOOTER */
+footer{background:var(--dark);padding:3rem 2rem;border-top:1px solid rgba(255,255,255,.06)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.5);font-size:.85rem;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{color:rgba(255,255,255,.3);font-size:.8rem}
+.footer-cta{background:var(--green);color:var(--white);padding:10px 20px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:500;transition:all .2s}
+.footer-cta:hover{background:var(--green-mid)}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero{padding:90px 1.5rem 60px}
+  section{padding:60px 1.5rem}
+  .hero-trust{gap:1rem}
+  .nav-right .nav-cta{display:none}
+  .problem-bar{flex-direction:column;align-items:flex-start}
+  .solution-banner{flex-direction:column;gap:1rem}
+  .footer-inner{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-bar"></div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-ovus">OVUS</span>
+      <span class="nav-logo-care">CARE</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <div class="lang-switcher" id="lang-switcher-nav">
+      <button class="lang-main-btn" id="lang-main-btn" onclick="toggleLangDropdown()">
+        <span id="lang-current-label">EN</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2 4 6 8 10 4"/></svg>
+      </button>
+      <div class="lang-dropdown" id="lang-dropdown">
+        <button class="lang-dropdown-item" data-lang="en" onclick="selectLang('en','EN')">EN</button>
+        <button class="lang-dropdown-item" data-lang="ru" onclick="selectLang('ru','RU')">RU</button>
+        <button class="lang-dropdown-item" data-lang="lv" onclick="selectLang('lv','LV')">LV</button>
+        <button class="lang-dropdown-item" data-lang="es" onclick="selectLang('es','ES')">ES</button>
+      </div>
+    </div>
+    <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" class="nav-cta" data-i18n="nav.cta">Book a Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle-1"></div>
+  <div class="hero-bg-circle-2"></div>
+  <div class="hero-bg-circle-3"></div>
+  <div class="hero-content">
+    <div class="hero-label" data-i18n="hero.label">AI Care Companion for Fertility Clinics</div>
+    <h1 class="hero-headline" data-i18n="hero.headline">Reduce patient dropout after the first consultation.</h1>
+    <p class="hero-tagline" data-i18n="hero.tagline">OvusCare fills the gap between consultations, helping more patients continue treatment instead of disappearing.</p>
+    <p style="font-size:.9rem;color:rgba(255,255,255,.45);max-width:520px;margin-bottom:2.5rem;line-height:1.6" data-i18n="hero.tagline2">Anna helps patients process information after their first visit, answers organisational questions and keeps them engaged — so they return for their second appointment.</p>
+    <div class="hero-buttons">
+      <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" class="btn-primary" data-i18n="hero.cta1">Book a Demo →</a>
+      <button onclick="document.getElementById('contact-modal').style.display='flex'" class="btn-secondary" style="cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px" data-i18n="hero.secondary">Send us a message</button>
+    </div>
+      <div class="trust-badge"><div class="trust-dot"></div><span>GDPR Compliant</span></div>
+      <div class="trust-badge"><div class="trust-dot"></div><span data-i18n="hero.trust2">No app to install</span></div>
+      <div class="trust-badge"><div class="trust-dot"></div><span data-i18n="hero.trust3">Works via WhatsApp</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label" data-i18n="problem.label">The Problem</div>
+      <h2 class="section-title" data-i18n="problem.title">The cost of silence after the first consultation</h2>
+      <p class="section-subtitle" data-i18n="problem.subtitle">Every third patient never comes back. Not because they found another clinic — because no one was there for them.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card fade-in">
+        <div class="stat-number">~30%</div>
+        <div class="stat-desc" data-i18n="problem.stat1">of patients never return after the first consultation with a reproductive specialist.</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">36%</div>
+        <div class="stat-desc" data-i18n="problem.stat2">cite psychological stress and fear as the #1 reason for dropping out of treatment.</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">42%</div>
+        <div class="stat-desc" data-i18n="problem.stat3">of patients leave the consultation without fully understanding their doctor's instructions.</div>
+      </div>
+    </div>
+    <div class="problem-bar fade-in">
+      <p class="problem-bar-text" data-i18n="problem.bar">A clinic with 200 visits/year loses approx. <strong>€240,000 annually</strong> from post-consultation dropout.</p>
+      <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" class="problem-bar-cta" data-i18n="problem.bar.cta">Book a Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="solution">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label" data-i18n="solution.label">The Solution</div>
+      <h2 class="section-title" data-i18n="solution.title">More patients continue treatment</h2>
+    </div>
+    <div class="solution-banner fade-in">
+      <div class="solution-banner-stat">−50%</div>
+      <p class="solution-banner-text" data-i18n="solution.banner">Studies show that actively supporting patients can reduce treatment dropout by up to 50%. <strong>This is exactly what OvusCare does.</strong> More patients follow their doctor's recommendations. More second appointments booked.</p>
+    </div>
+    <p class="section-subtitle fade-in" data-i18n="solution.subtitle">Anna reduces anxiety, answers every question, and guides each patient to follow their doctor's recommendations — building trust and increasing the likelihood they return.</p>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">✓</div>
+        <div class="feature-title" data-i18n="f1.title">Fewer dropouts</div>
+        <p class="feature-desc" data-i18n="f1.desc">More patients return after the first consultation and start their protocol.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">✓</div>
+        <div class="feature-title" data-i18n="f2.title">More second appointments</div>
+        <p class="feature-desc" data-i18n="f2.desc">Patients receive timely guidance and answers that increase the likelihood of returning to the clinic.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">✓</div>
+        <div class="feature-title" data-i18n="f3.title">Better patient compliance</div>
+        <p class="feature-desc" data-i18n="f3.desc">Patients better understand instructions, complete required tests and arrive prepared for the next step.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">✓</div>
+        <div class="feature-title" data-i18n="f4.title">Early warning</div>
+        <p class="feature-desc" data-i18n="f4.desc">Know which patients are losing engagement before revenue is lost.</p>
+      </div>
+    </div>
+    <div class="section-cta fade-in">
+      <a href="mailto:jelena@ovuscare.com" data-i18n="solution.cta">Interested? Book a Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <!-- Journey comparison -->
+    <div class="journey fade-in" style="margin-bottom:4rem">
+      <div class="section-label" data-i18n="journey.label">The Difference</div>
+      <h2 class="section-title" data-i18n="journey.title">What happens after the consultation?</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem">
+        <div style="background:var(--bg);border-radius:12px;padding:2rem;border:1px solid var(--border)">
+          <p style="font-size:.8rem;font-weight:600;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem" data-i18n="journey.without">Without OvusCare</p>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:#E2E8F0;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:var(--muted);flex-shrink:0">1</div><span style="font-size:.9rem;color:var(--dark)" data-i18n="journey.w1">Consultation</span></div>
+            <div style="width:1px;height:16px;background:var(--border);margin-left:17px"></div>
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:#DC2626;flex-shrink:0">2</div><span style="font-size:.9rem;color:var(--dark)" data-i18n="journey.w2">Questions remain unanswered</span></div>
+            <div style="width:1px;height:16px;background:var(--border);margin-left:17px"></div>
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:#DC2626;flex-shrink:0">3</div><span style="font-size:.9rem;color:var(--dark)" data-i18n="journey.w3">Patient postpones next step</span></div>
+            <div style="width:1px;height:16px;background:var(--border);margin-left:17px"></div>
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:#DC2626;flex-shrink:0">4</div><span style="font-size:.9rem;font-weight:600;color:#DC2626" data-i18n="journey.w4">Revenue opportunity lost</span></div>
+          </div>
+        </div>
+        <div style="background:var(--green-light);border-radius:12px;padding:2rem;border:1px solid rgba(13,148,136,.2)">
+          <p style="font-size:.8rem;font-weight:600;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin-bottom:1.5rem" data-i18n="journey.with">With OvusCare</p>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:white;flex-shrink:0">1</div><span style="font-size:.9rem;color:var(--dark)" data-i18n="journey.w1">Consultation</span></div>
+            <div style="width:1px;height:16px;background:rgba(13,148,136,.3);margin-left:17px"></div>
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:white;flex-shrink:0">2</div><span style="font-size:.9rem;color:var(--dark)" data-i18n="journey.o2">Anna follows up automatically</span></div>
+            <div style="width:1px;height:16px;background:rgba(13,148,136,.3);margin-left:17px"></div>
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:white;flex-shrink:0">3</div><span style="font-size:.9rem;color:var(--dark)" data-i18n="journey.o3">Questions answered. Patient stays calm.</span></div>
+            <div style="width:1px;height:16px;background:rgba(13,148,136,.3);margin-left:17px"></div>
+            <div style="display:flex;align-items:center;gap:.75rem"><div style="width:36px;height:36px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:white;flex-shrink:0">4</div><span style="font-size:.9rem;font-weight:600;color:var(--green)" data-i18n="journey.o4">Treatment starts ✓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROI block -->
+    <div class="fade-in" style="background:var(--dark);border-radius:12px;padding:2rem;margin-bottom:4rem">
+      <p style="font-size:.8rem;font-weight:600;letter-spacing:.1em;color:var(--green-mid);text-transform:uppercase;margin-bottom:1rem" data-i18n="roi.label">The Math</p>
+      <p style="font-size:1.1rem;font-weight:600;color:var(--white);margin-bottom:1.5rem" data-i18n="roi.title">If just 5 additional patients start treatment per month:</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem">
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:1rem;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:.5rem"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.7)" data-i18n="roi.point1">Dropout rate decreases</p>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:1rem;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:.5rem"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.7)" data-i18n="roi.point2">More IVF cycles started</p>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:1rem;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:.5rem"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.7)" data-i18n="roi.point3">More treatment revenue</p>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:1rem;text-align:center">
+          <div style="font-size:1.5rem;margin-bottom:.5rem"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <p style="font-size:.875rem;color:rgba(255,255,255,.7)" data-i18n="roi.point4">Better patient outcomes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why clinics choose OvusCare -->
+    <div class="fade-in" style="margin-bottom:4rem">
+      <div class="section-label" data-i18n="why.label">Why Clinics Choose OvusCare</div>
+      <h2 class="section-title" data-i18n="why.title">Zero friction to get started</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem">
+        <div style="display:flex;align-items:flex-start;gap:1rem;background:var(--white);border-radius:12px;padding:1.5rem;border:1px solid var(--border)">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div><div style="font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:.35rem" data-i18n="why.p1.title">No app for patients</div><p style="font-size:.85rem;color:var(--muted);line-height:1.5" data-i18n="why.p1.desc">Patients use WhatsApp — an app they already have. Zero onboarding friction.</p></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:1rem;background:var(--white);border-radius:12px;padding:1.5rem;border:1px solid var(--border)">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div><div style="font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:.35rem" data-i18n="why.p2.title">Ready in minutes</div><p style="font-size:.85rem;color:var(--muted);line-height:1.5" data-i18n="why.p2.desc">No IT department needed. No complex setup. Add a patient and activate — that's it.</p></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:1rem;background:var(--white);border-radius:12px;padding:1.5rem;border:1px solid var(--border)">
+          <div style="width:40px;height:40px;border-radius:8px;background:var(--green-light);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+          <div><div style="font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:.35rem" data-i18n="why.p3.title">Works alongside your workflow</div><p style="font-size:.85rem;color:var(--muted);line-height:1.5" data-i18n="why.p3.desc">OvusCare doesn't replace your systems. It fills the gap between appointments — nothing more.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="section-label" data-i18n="how.label">How It Works</div>
+      <h2 class="section-title" data-i18n="how.title">Up and running in minutes</h2>
+      <p class="section-subtitle" data-i18n="how.subtitle">No technical setup required. No app for patients to install. Just add a patient and activate.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-in">
+        <div class="step-number">1</div>
+        <div class="step-title" data-i18n="step1.title">Patient is added</div>
+        <p class="step-desc" data-i18n="step1.desc">Clinic adds patient to OvusCare in seconds — name, stage, doctor's recommendations, WhatsApp number.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">2</div>
+        <div class="step-title" data-i18n="step2.title">Anna is activated</div>
+        <p class="step-desc" data-i18n="step2.desc">One toggle activates the AI assistant. Patient receives a welcome message and first personalised video automatically.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">3</div>
+        <div class="step-title" data-i18n="step3.title">Ongoing support</div>
+        <p class="step-desc" data-i18n="step3.desc">Anna answers questions 24/7, sends content on schedule. Clinic sees everything in real time.</p>
+      </div>
+    </div>
+    <div class="how-note fade-in">
+      <div class="trust-dot"></div>
+      <span data-i18n="how.note">No app to install for patients. No technical setup. Works via WhatsApp.</span>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label" data-i18n="demo.label">Live Product</div>
+      <h2 class="section-title" data-i18n="demo.title">Built and running at app.ovuscare.com</h2>
+      <p class="section-subtitle" data-i18n="demo.subtitle">A real product, not a mockup. See it live before you commit to anything.</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- VIDEO: replace YOUR_VIDEO_URL with your video link (YouTube embed, Vimeo, or direct .mp4) -->
+    <!-- Example YouTube: https://www.youtube.com/embed/VIDEOID -->
+    <!-- Example direct:  https://yourdomain.com/demo.mp4 -->
+    <!-- ============================================ -->
+    <div class="fade-in" style="margin:2.5rem 0;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)">
+      <div id="video-placeholder" style="height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:rgba(255,255,255,.3)">
+        <div style="font-size:3rem">▶</div>
+        <p style="font-size:.875rem">Product demo video — coming soon</p>
+      </div>
+      <!-- UNCOMMENT AND REPLACE URL WHEN VIDEO IS READY: -->
+      <!-- <iframe id="demo-video" src="YOUR_VIDEO_URL" width="100%" height="380" frameborder="0" allowfullscreen style="display:block"></iframe> -->
+      <!-- OR FOR MP4: -->
+      <!-- <video id="demo-video" src="YOUR_VIDEO_URL" width="100%" height="380" controls style="display:block"></video> -->
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCREENSHOTS: replace placeholder src with your image paths -->
+    <!-- screenshot1 = Dashboard overview -->
+    <!-- screenshot2 = Patient card with chat -->
+    <!-- ============================================ -->
+    <div class="screenshots">
+      <div class="browser-window fade-in">
+        <div class="browser-bar">
+          <div class="browser-dot red"></div>
+          <div class="browser-dot yellow"></div>
+          <div class="browser-dot green"></div>
+          <div class="browser-url">app.ovuscare.com/patients</div>
+        </div>
+        <!-- REPLACE src WITH YOUR SCREENSHOT: -->
+        <!-- <img src="screenshot-dashboard.png" alt="Clinic Dashboard" style="width:100%;display:block"> -->
+        <div class="browser-content">
+          <div class="browser-content-icon">📊</div>
+          <div class="browser-content-label" data-i18n="demo.screen1">Clinic Dashboard<br>real-time patient overview</div>
+        </div>
+      </div>
+      <div class="browser-window fade-in">
+        <div class="browser-bar">
+          <div class="browser-dot red"></div>
+          <div class="browser-dot yellow"></div>
+          <div class="browser-dot green"></div>
+          <div class="browser-url">app.ovuscare.com/patients/p001</div>
+        </div>
+        <!-- REPLACE src WITH YOUR SCREENSHOT: -->
+        <!-- <img src="screenshot-patient.png" alt="Patient card" style="width:100%;display:block"> -->
+        <div class="browser-content">
+          <div class="browser-content-icon">💬</div>
+          <div class="browser-content-label" data-i18n="demo.screen2">Patient card<br>chat history, videos, engagement</div>
+        </div>
+      </div>
+    </div>
+    <p class="demo-note" data-i18n="demo.note">Live demo available at <a href="https://app.ovuscare.com" target="_blank">app.ovuscare.com</a></p>
+  </div>
+</section>
+
+<!-- PILOT -->
+<section class="pilot">
+  <div class="container">
+    <div class="pilot-header fade-in">
+      <div class="section-label" data-i18n="pilot.label">Pilot Programme</div>
+      <h2 class="section-title" data-i18n="pilot.title">Join our clinic partner programme</h2>
+      <p class="section-subtitle" data-i18n="pilot.subtitle">More patients completing tests. More second appointments booked. Less anxiety calls to your staff.</p>
+    </div>
+    <div class="pilot-grid">
+      <div class="pilot-card-free fade-in">
+        <div class="pilot-card-tag">🎁 <span data-i18n="pilot.free.tag">First 2 Months Free</span></div>
+        <h3 style="font-size:1.1rem;font-weight:600;color:var(--dark);margin-bottom:.25rem" data-i18n="pilot.free.title">Everything included</h3>
+        <p style="font-size:.85rem;color:var(--muted)" data-i18n="pilot.free.sub">No commitment. Cancel anytime.</p>
+        <ul class="pilot-checklist">
+          <li><div class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="pilot.check1">Full access to clinic dashboard</span></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="pilot.check2">Anna AI assistant for all patients</span></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="pilot.check3">Personalised video messages</span></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="pilot.check4">Analytics & engagement metrics</span></li>
+          <li><div class="check-icon"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span data-i18n="pilot.check5">Direct support from OvusCare team</span></li>
+        </ul>
+      </div>
+      <div class="pilot-card-price fade-in">
+        <div class="price-label" data-i18n="pilot.after.label">Tailored for your clinic</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--white);line-height:1.3;margin-bottom:.75rem" data-i18n="pilot.after.headline">Conditions tailored to your clinic.</div>
+        <p style="font-size:.875rem;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:1.5rem" data-i18n="pilot.after.desc">Every clinic is different. We will discuss the format of collaboration and find the right solution for you on a call.</p>
+        <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--green);color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-size:.875rem;font-weight:500;transition:all .2s" data-i18n="pilot.after.cta">Schedule a Call →</a>
+      </div>
+    </div>
+    <div class="pilot-bottom fade-in">
+      <p class="pilot-bottom-text" data-i18n="pilot.bottom">Zero risk. No long-term commitment. Your patients' data stays yours.</p>
+    </div>
+    <div class="pilot-cta fade-in">
+      <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" class="btn-large" data-i18n="pilot.cta">Book a Demo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-bar"></div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-ovus">OVUS</span>
+        <span class="nav-logo-care">CARE</span>
+      </div>
+    </a>
+    <div class="footer-links">
+      <a href="https://app.ovuscare.com" target="_blank">app.ovuscare.com</a>
+      <a href="mailto:jelena@ovuscare.com">jelena@ovuscare.com</a>
+    </div>
+    <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" class="footer-cta" data-i18n="footer.cta">Book a Demo</a>
+  </div>
+  <div style="max-width:1100px;margin:1.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <p class="footer-copy">© 2026 OvusCare. All rights reserved.</p>
+    <div class="footer-lang">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ru">RU</button>
+      <button class="lang-btn" data-lang="lv">LV</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  en: {
+    "nav.cta": "Book a Demo",
+    "hero.label": "AI Care Companion for Fertility Clinics",
+    "hero.headline": "Reduce patient dropout after the first consultation.",
+    "hero.tagline": "OvusCare fills the gap between consultations, helping more patients continue treatment instead of disappearing.",
+    "hero.tagline2": "Anna helps patients process information after their first visit, answers organisational questions and keeps them engaged — so they return for their second appointment.",
+    "hero.cta1": "Book a Demo →",
+    "hero.secondary": "Or send us a message",
+    "hero.trust2": "No app to install",
+    "hero.trust3": "Works via WhatsApp",
+    "problem.label": "The Problem",
+    "problem.title": "The cost of silence after the first consultation",
+    "problem.subtitle": "Every third patient never comes back after the first IVF consultation. Not because they found another clinic — because no one was there for them.",
+    "problem.stat1": "of patients never return after the first consultation with a reproductive specialist.",
+    "problem.stat2": "cite psychological stress and fear as the #1 reason for dropping out of treatment.",
+    "problem.stat3": "of patients leave the consultation without fully understanding their doctor's instructions.",
+    "problem.bar": "A clinic with 200 visits/year loses approx. <strong>€240,000 annually</strong> from post-consultation dropout.",
+    "problem.bar.cta": "Book a Demo →",
+    "solution.label": "The Solution",
+    "solution.title": "More patients continue treatment",
+    "solution.banner": "Studies show that actively supporting patients can reduce treatment dropout by up to 50%. <strong>This is exactly what OvusCare does.</strong> More patients follow their doctor's recommendations. More second appointments booked.",
+    "solution.subtitle": "OvusCare fills the gap between consultations, helping more patients continue treatment instead of disappearing.",
+    "solution.cta": "Interested? Book a Demo →",
+    "f1.title": "Fewer dropouts",
+    "f1.desc": "More patients return after the first consultation and start their protocol.",
+    "f2.title": "More second appointments",
+    "f2.desc": "Patients receive timely guidance and answers that increase the likelihood of returning to the clinic.",
+    "f3.title": "Better patient compliance",
+    "f3.desc": "Patients better understand instructions, complete required tests and arrive prepared for the next step.",
+    "f4.title": "Early warning",
+    "f4.desc": "Know which patients are losing engagement before revenue is lost.",
+    "journey.label": "The Difference",
+    "journey.title": "What happens after the consultation?",
+    "journey.without": "Without OvusCare",
+    "journey.with": "With OvusCare",
+    "journey.w1": "Consultation",
+    "journey.w2": "Questions remain unanswered",
+    "journey.w3": "Patient postpones next step",
+    "journey.w4": "Revenue opportunity lost",
+    "journey.o2": "Anna follows up automatically",
+    "journey.o3": "Questions answered. Patient stays calm.",
+    "journey.o4": "Treatment starts ✓",
+    "roi.label": "The Math",
+    "roi.title": "If just 5 additional patients start treatment per month:",
+    "roi.point1": "Dropout rate decreases",
+    "roi.point2": "More IVF cycles started",
+    "roi.point3": "More treatment revenue",
+    "roi.point4": "Better patient outcomes",
+    "why.label": "Why Clinics Choose OvusCare",
+    "why.title": "Zero friction to get started",
+    "why.p1.title": "No app for patients",
+    "why.p1.desc": "Patients use WhatsApp — an app they already have. Zero onboarding friction.",
+    "why.p2.title": "Ready in minutes",
+    "why.p2.desc": "No IT department needed. No complex setup. Add a patient and activate — that's it.",
+    "why.p3.title": "Works alongside your workflow",
+    "why.p3.desc": "OvusCare doesn't replace your systems. It fills the gap between appointments — nothing more.",
+    "how.label": "How It Works",
+    "how.subtitle": "No technical setup required. No app for patients to install. Just add a patient and activate.",
+    "step1.title": "Patient is added",
+    "step1.desc": "Clinic adds patient to OvusCare in seconds — name, stage, doctor's recommendations, WhatsApp number.",
+    "step2.title": "Anna is activated",
+    "step2.desc": "One toggle activates the AI assistant. Patient receives a welcome message and first personalised video automatically.",
+    "step3.title": "Ongoing support",
+    "step3.desc": "Anna answers questions 24/7, sends content on schedule. Clinic sees everything in real time.",
+    "how.note": "No app to install for patients. No technical setup. Works via WhatsApp.",
+    "demo.label": "Live Product",
+    "demo.title": "Built and running at app.ovuscare.com",
+    "demo.subtitle": "A real product, not a mockup. See it live before you commit to anything.",
+    "demo.screen1": "Clinic Dashboard\nreal-time patient overview",
+    "demo.screen2": "Patient card\nchat history, videos, engagement",
+    "demo.note": "Live demo available at <a href='https://app.ovuscare.com' target='_blank'>app.ovuscare.com</a>",
+    "pilot.label": "Pilot Programme",
+    "pilot.title": "Join our clinic partner programme",
+    "pilot.subtitle": "More patients completing tests. More second appointments booked. Less anxiety calls to your staff.",
+    "pilot.free.tag": "First 2 Months Free",
+    "pilot.free.title": "Everything included",
+    "pilot.free.sub": "No commitment. Cancel anytime.",
+    "pilot.check1": "Full access to clinic dashboard",
+    "pilot.check2": "Anna AI assistant for all patients",
+    "pilot.check3": "Personalised video messages",
+    "pilot.check4": "Analytics & engagement metrics",
+    "pilot.check5": "Direct support from OvusCare team",
+    "pilot.after.label": "Tailored for your clinic",
+    "pilot.after.headline": "Conditions tailored to your clinic.",
+    "pilot.after.desc": "Every clinic is different. We will discuss the format of collaboration and find the right solution for you on a call.",
+    "pilot.after.cta": "Schedule a Call →",
+    "pilot.bottom": "Zero risk. No long-term commitment. Your patients' data stays yours.",
+    "pilot.cta": "Book a Demo →",
+    "footer.cta": "Book a Demo",
+    "modal.label": "Send a message",
+    "modal.title": "We'll get back to you within 24 hours",
+    "modal.prefer": "Prefer a call? <a href='https://calendly.com/je-djomina/ovuscare-demo' target='_blank' style='color:#0D9488'>Book a time directly →</a>",
+    "modal.name": "Your name",
+    "modal.clinic": "Clinic name",
+    "modal.email": "Email",
+    "modal.submit": "Send Message →",
+    "modal.success.title": "Message sent!",
+    "modal.success.desc": "We'll be in touch within 24 hours."
+  },
+  ru: {
+    "nav.cta": "Записаться на демо",
+    "hero.label": "ИИ-компаньон для клиник ЭКО",
+    "hero.headline": "Ваши пациентки заслуживают поддержки <em>между</em> приёмами.",
+    "hero.tagline": "OvusCare заполняет пространство между консультациями, помогая большему числу пациенток продолжить лечение.",
+    "hero.tagline2": "Анна помогает пациентке переработать информацию после первого визита, отвечает на организационные вопросы и поддерживает контакт — чтобы она вернулась на второй приём.",
+    "hero.cta1": "Записаться на демо →",
+    "hero.secondary": "Написать нам",
+    "hero.trust2": "Не нужно устанавливать приложение",
+    "hero.trust3": "Работает через WhatsApp",
+    "problem.label": "Проблема",
+    "problem.title": "Цена молчания после первой консультации",
+    "problem.subtitle": "Каждая третья пациентка не возвращается. Не потому что нашла другую клинику — потому что никто не был рядом.",
+    "problem.stat1": "пациенток не возвращаются после первой консультации репродуктолога.",
+    "problem.stat2": "называют психологический стресс и страх главной причиной отказа от лечения.",
+    "problem.stat3": "пациенток уходят с консультации, не до конца понимая назначения врача.",
+    "problem.bar": "Клиника с 200 консультациями в год теряет около <strong>€240 000 ежегодно</strong> из-за отказов после первого приёма.",
+    "problem.bar.cta": "Записаться на демо →",
+    "solution.label": "Решение",
+    "solution.title": "Больше пациенток продолжают лечение",
+    "solution.banner": "Исследования показывают: активная поддержка пациенток снижает отказы от лечения до 50%. <strong>Именно это делает OvusCare.</strong> Больше пациенток выполняют назначения. Больше вторых приёмов.",
+    "solution.subtitle": "OvusCare заполняет пространство между консультациями, помогая большему числу пациенток продолжить лечение вместо того, чтобы исчезнуть.",
+    "solution.cta": "Интересно? Записаться на демо →",
+    "f1.title": "Меньше отказов от лечения",
+    "f1.desc": "Больше пациенток возвращаются после первой консультации и переходят к протоколу.",
+    "f2.title": "Больше повторных визитов",
+    "f2.desc": "Пациентки вовремя получают ответы, что повышает вероятность их возвращения в клинику.",
+    "f3.title": "Выполнение назначений",
+    "f3.desc": "Пациентки четко понимают инструкции врача, вовремя сдают анализы и приходят готовыми.",
+    "f4.title": "Раннее предупреждение",
+    "f4.desc": "Система подсветит, если пациентка теряет вовлеченность, до того как она пропадет.",
+    "journey.label": "Разница",
+    "journey.title": "Что происходит после консультации?",
+    "journey.without": "Без OvusCare",
+    "journey.with": "С OvusCare",
+    "journey.w1": "Консультация",
+    "journey.w2": "Вопросы остаются без ответа",
+    "journey.w3": "Пациентка откладывает следующий шаг",
+    "journey.w4": "Упущенная выручка",
+    "journey.o2": "Анна связывается автоматически",
+    "journey.o3": "Вопросы решены. Пациентка спокойна.",
+    "journey.o4": "Лечение начинается ✓",
+    "roi.label": "Математика",
+    "roi.title": "Если всего 5 дополнительных пациенток начнут лечение в месяц:",
+    "roi.point1": "Процент отказов снижается",
+    "roi.point2": "Больше циклов ЭКО",
+    "roi.point3": "Больше дохода от лечения",
+    "roi.point4": "Лучшие результаты для пациенток",
+    "why.label": "Почему клиники выбирают OvusCare",
+    "why.title": "Простой старт — никаких лишних сложностей",
+    "why.p1.title": "Нет приложения для пациенток",
+    "why.p1.desc": "Пациентки используют WhatsApp — приложение которое уже есть. Ноль усилий при подключении.",
+    "why.p2.title": "Готово за минуты",
+    "why.p2.desc": "Не нужен IT-отдел. Никакой сложной настройки. Добавьте пациентку и активируйте — вот и всё.",
+    "why.p3.title": "Работает вместе с вашим процессом",
+    "why.p3.desc": "OvusCare не заменяет ваши системы. Заполняет пространство между приёмами — и ничего больше.",
+    "how.label": "Как это работает",
+    "how.title": "Запуск за несколько минут",
+    "how.subtitle": "Никаких технических настроек. Пациентке не нужно ничего устанавливать. Просто добавьте пациентку и активируйте.",
+    "step1.title": "Пациентка добавлена",
+    "step1.desc": "Клиника вносит данные за секунды — имя, стадия, назначения врача, номер WhatsApp.",
+    "step2.title": "Анна активирована",
+    "step2.desc": "Один тоггл — и ИИ-ассистент включён. Пациентка автоматически получает приветствие и первое персонализированное видео.",
+    "step3.title": "Постоянная поддержка",
+    "step3.desc": "Анна отвечает на вопросы 24/7, отправляет контент по расписанию. Клиника видит всё в реальном времени.",
+    "how.note": "Пациентке не нужно ничего скачивать. Никакой настройки. Работает через WhatsApp.",
+    "demo.label": "Живой продукт",
+    "demo.title": "Работает прямо сейчас на app.ovuscare.com",
+    "demo.subtitle": "Реальный продукт, не макет. Посмотрите вживую, прежде чем принять решение.",
+    "demo.screen1": "Дашборд клиники\nобзор пациенток в реальном времени",
+    "demo.screen2": "Карточка пациентки\nистория чата, видео, вовлечённость",
+    "demo.note": "Живое демо доступно на <a href='https://app.ovuscare.com' target='_blank'>app.ovuscare.com</a>",
+    "pilot.label": "Пилотная программа",
+    "pilot.title": "Присоединяйтесь к партнёрской программе OvusCare",
+    "pilot.subtitle": "Больше пациенток выполняют назначения. Больше вторых приёмов. Меньше тревожных звонков персоналу.",
+    "pilot.free.tag": "Первые 2 месяца бесплатно",
+    "pilot.free.title": "Всё включено",
+    "pilot.free.sub": "Без обязательств. Отмена в любое время.",
+    "pilot.check1": "Полный доступ к дашборду клиники",
+    "pilot.check2": "ИИ-ассистент Анна для всех пациенток",
+    "pilot.check3": "Персонализированные видеосообщения",
+    "pilot.check4": "Аналитика и метрики вовлечённости",
+    "pilot.check5": "Прямая поддержка от команды OvusCare",
+    "pilot.after.label": "Условия под вашу клинику",
+    "pilot.after.headline": "Условия под вашу клинику.",
+    "pilot.after.desc": "Каждая клиника уникальна. Обсудим формат сотрудничества и подберём оптимальные условия на звонке.",
+    "pilot.after.cta": "Записаться на звонок →",
+    "pilot.bottom": "Никакого риска. Никаких долгосрочных обязательств. Данные ваших пациенток остаются у вас.",
+    "pilot.cta": "Записаться на демо →",
+    "footer.cta": "Записаться на демо",
+    "modal.label": "Написать нам",
+    "modal.title": "Ответим в течение 24 часов",
+    "modal.prefer": "Предпочитаете звонок? <a href='https://calendly.com/je-djomina/ovuscare-demo' target='_blank' style='color:#0D9488'>Выбрать время →</a>",
+    "modal.name": "Ваше имя",
+    "modal.clinic": "Название клиники",
+    "modal.email": "Email",
+    "modal.submit": "Отправить →",
+    "modal.success.title": "Сообщение отправлено!",
+    "modal.success.desc": "Ответим в течение 24 часов."
+  },
+  lv: {
+    "nav.cta": "Pieteikties demonstrācijai",
+    "hero.label": "AI pavadonis IVF klīnikām",
+    "hero.headline": "Jūsu pacienti ir pelnījuši atbalstu <em>starp</em> vizītēm.",
+    "hero.tagline": "OvusCare aizpilda plaisu starp konsultācijām, palīdzot vairāk pacientiem turpināt ārstēšanu.",
+    "hero.tagline2": "Anna palīdz pacientiem apstrādāt informāciju pēc pirmās vizītes, atbild uz organizatoriskiem jautājumiem un uztur kontaktu — lai viņi atgrieztos otrajā apmeklējumā.",
+    "hero.cta1": "Pieteikties demonstrācijai →",
+    "hero.cta2": "Skatīt sistēmu ↗",
+    "hero.trust2": "Nav nepieciešama lietotne",
+    "hero.trust3": "Darbojas caur WhatsApp",
+    "problem.label": "Problēma",
+    "problem.title": "Klusuma cena pēc pirmās konsultācijas",
+    "problem.subtitle": "Katrs trešais pacients neatgriežas. Ne tāpēc, ka atrada citu klīniku — bet tāpēc, ka neviens nebija klāt.",
+    "problem.stat1": "pacientu neatgriežas pēc pirmās konsultācijas ar reproduktologu.",
+    "problem.stat2": "min psiholoģisko stresu un bailes kā galveno iemeslu ārstēšanas pārtraukšanai.",
+    "problem.stat3": "pacientu aiziet no konsultācijas, pilnībā nesaprotot ārsta norādījumus.",
+    "problem.bar": "Klīnika ar 200 konsultācijām gadā zaudē aptuveni <strong>€240 000 gadā</strong> pēckonsultāciju atteikumu dēļ.",
+    "problem.bar.cta": "Pieteikties demonstrācijai →",
+    "solution.label": "Risinājums",
+    "solution.title": "Ko dara OvusCare",
+    "solution.banner": "Pētījumi liecina: aktīvs atbalsts pacientiem var samazināt ārstēšanas atteikumus par 50%. <strong>Tieši to dara OvusCare.</strong> Vairāk pacientu ievēro ārsta ieteikumus. Vairāk otrreizējo apmeklējumu.",
+    "solution.subtitle": "Anna mazina trauksmi, atbild uz visiem jautājumiem un virza katru pacientu ievērot ārsta ieteikumus — veidojot uzticību klīnikai.",
+    "solution.cta": "Interesē? Pieteikties demonstrācijai →",
+    "f1.title": "Mazāk atteikumu no ārstēšanas",
+    "f1.desc": "Vairāk pacientu atgriežas pēc pirmās konsultācijas un uzsāk protokolu.",
+    "f2.title": "Vairāk atkārtotu vizīšu",
+    "f2.desc": "Pacienti savlaicīgi saņem atbildes, kas palielina viņu atgriešanās iespējamību klīnikā.",
+    "f3.title": "Ārsta norādījumu ievērošana",
+    "f3.desc": "Pacienti skaidri saprot ārsta norādījumus, savlaicīgi veic analīzes un ierodas sagatavoti.",
+    "f4.title": "Agrīns brīdinājums",
+    "f4.desc": "Sistēma parādīs, ja pacients zaudē iesaisti, pirms viņš pazūd.",
+    "journey.label": "Atšķirība",
+    "journey.title": "Kas notiek pēc konsultācijas?",
+    "journey.without": "Bez OvusCare",
+    "journey.with": "Ar OvusCare",
+    "journey.w1": "Konsultācija",
+    "journey.w2": "Jautājumi paliek bez atbildes",
+    "journey.w3": "Pacients atliek nākamo soli",
+    "journey.w4": "Ieņēmumu iespēja zaudēta",
+    "journey.o2": "Anna automātiski sazinās",
+    "journey.o3": "Jautājumi atbildēti. Pacients ir mierīgs.",
+    "journey.o4": "Ārstēšana sākas ✓",
+    "roi.label": "Matemātika",
+    "roi.title": "Ja tikai 5 papildu pacienti uzsāk ārstēšanu mēnesī:",
+    "roi.point1": "Atteikumu līmenis samazinās",
+    "roi.point2": "Vairāk IVF ciklu uzsākti",
+    "roi.point3": "Vairāk ārstēšanas ieņēmumu",
+    "roi.point4": "Labāki rezultāti pacientiem",
+    "why.label": "Kāpēc klīnikas izvēlas OvusCare",
+    "why.title": "Vienkārša ieviešana — bez liekas sarežģītības",
+    "why.p1.title": "Nav lietotnes pacientiem",
+    "why.p1.desc": "Pacienti izmanto WhatsApp — lietotni, kas viņiem jau ir. Nulles iepazīšanās berze.",
+    "why.p2.title": "Gatavs minūtēs",
+    "why.p2.desc": "Nav nepieciešams IT departaments. Nav sarežģītas iestatīšanas. Pievienojiet pacientu un aktivizējiet.",
+    "why.p3.title": "Darbojas līdzās jūsu procesam",
+    "why.p3.desc": "OvusCare neaizstāj jūsu sistēmas. Aizpilda plaisu starp vizītēm — nekas vairāk.",
+    "how.label": "Kā tas darbojas",
+    "how.title": "Darbībā dažu minūšu laikā",
+    "how.subtitle": "Nav nepieciešama tehniskā iestatīšana. Pacientiem nav jāinstalē lietotne. Vienkārši pievienojiet pacientu un aktivizējiet.",
+    "step1.title": "Pacients pievienots",
+    "step1.desc": "Klīnika sekundēs ievada datus — vārds, stadija, ārsta ieteikumi, WhatsApp numurs.",
+    "step2.title": "Anna aktivizēta",
+    "step2.desc": "Viens slēdzis — AI asistents ir ieslēgts. Pacients automātiski saņem sveicienu un pirmo personalizēto video.",
+    "step3.title": "Pastāvīgs atbalsts",
+    "step3.desc": "Anna atbild uz jautājumiem 24/7, sūta saturu pēc grafika. Klīnika redz visu reāllaikā.",
+    "how.note": "Pacientiem nav nepieciešams lejupielādēt neko. Nekādas iestatīšanas. Darbojas caur WhatsApp.",
+    "demo.label": "Dzīvs produkts",
+    "demo.title": "Izveidots un darbojas app.ovuscare.com",
+    "demo.subtitle": "Īsts produkts, nevis makets. Apskatiet to tiešraidē, pirms pieņemat lēmumu.",
+    "demo.screen1": "Klīnikas panelis\nreāllaika pacientu pārskats",
+    "demo.screen2": "Pacienta karte\nsarakstes vēsture, video, iesaiste",
+    "demo.note": "Tiešraides demonstrācija pieejama <a href='https://app.ovuscare.com' target='_blank'>app.ovuscare.com</a>",
+    "pilot.label": "Pilotprogramma",
+    "pilot.title": "Pievienojieties mūsu klīnikas partneru programmai",
+    "pilot.subtitle": "Vairāk pacientu izpilda ieteikumus. Vairāk otrreizējo apmeklējumu. Mazāk trauksmainu zvanu personālam.",
+    "pilot.free.tag": "Pirmie 2 mēneši bez maksas",
+    "pilot.free.title": "Viss iekļauts",
+    "pilot.free.sub": "Bez saistībām. Atcelšana jebkurā laikā.",
+    "pilot.check1": "Pilna piekļuve klīnikas panelim",
+    "pilot.check2": "AI asistente Anna visiem pacientiem",
+    "pilot.check3": "Personalizēti video ziņojumi",
+    "pilot.check4": "Analītika un iesaistes metrikas",
+    "pilot.check5": "Tieša OvusCare komandas atbalsts",
+    "pilot.after.label": "Nosacījumi jūsu klīnikai",
+    "pilot.after.headline": "Nosacījumi, kas pielāgoti jūsu klīnikai.",
+    "pilot.after.desc": "Katra klīnika ir unikāla. Pārrunāsim sadarbības formātu un atradīsim optimālo risinājumu jums.",
+    "pilot.after.cta": "Pieteikties zvanam →",
+    "pilot.bottom": "Nulles risks. Nav ilgtermiņa saistību. Jūsu pacientu dati paliek jūsu rīcībā.",
+    "pilot.cta": "Pieteikties demonstrācijai →",
+    "footer.cta": "Pieteikties demonstrācijai"
+  },
+  es: {
+    "nav.cta": "Reservar una demo",
+    "hero.label": "AI Care Companion para Clínicas de Fertilidad",
+    "hero.headline": "Reduce el abandono de pacientes después de la primera consulta.",
+    "hero.tagline": "OvusCare llena el vacío entre consultas, ayudando a más pacientes a continuar el tratamiento en lugar de desaparecer.",
+    "hero.cta1": "Reservar una demo →",
+    "hero.secondary": "Envíanos un mensaje",
+    "hero.trust2": "Sin aplicación para pacientes",
+    "hero.trust3": "Funciona a través de WhatsApp",
+    "problem.label": "El Problema",
+    "problem.title": "El coste del silencio tras la primera consulta",
+    "problem.subtitle": "Una de cada tres pacientes no regresa. No porque encontró otra clínica, sino porque nadie estuvo ahí para ella.",
+    "problem.stat1": "de las pacientes no regresan tras la primera consulta con el especialista en reproducción.",
+    "problem.stat2": "citan el estrés psicológico y el miedo como razón principal para abandonar el tratamiento.",
+    "problem.stat3": "de las pacientes salen de la consulta sin entender completamente las instrucciones del médico.",
+    "problem.bar": "Una clínica con 200 visitas al año pierde aprox. <strong>€240.000 anuales</strong> por abandono post-consulta.",
+    "problem.bar.cta": "Reservar una demo →",
+    "solution.label": "La Solución",
+    "solution.title": "Más pacientes continúan el tratamiento",
+    "solution.banner": "Los estudios muestran que apoyar activamente a las pacientes puede reducir el abandono hasta un 50%. <strong>Exactamente esto es lo que hace OvusCare.</strong> Más pacientes siguen las recomendaciones del médico. Más segundas citas.",
+    "solution.subtitle": "OvusCare llena el vacío entre consultas, ayudando a más pacientes a continuar el tratamiento en lugar de desaparecer.",
+    "solution.cta": "¿Interesado? Reservar una demo →",
+    "f1.title": "Menos abandonos",
+    "f1.desc": "Más pacientes regresan tras la primera consulta e inician su protocolo.",
+    "f2.title": "Más segundas citas",
+    "f2.desc": "Las pacientes reciben orientación y respuestas oportunas que aumentan la probabilidad de regresar a la clínica.",
+    "f3.title": "Mejor cumplimiento",
+    "f3.desc": "Las pacientes comprenden mejor las instrucciones, completan las pruebas y llegan preparadas al siguiente paso.",
+    "f4.title": "Alerta temprana",
+    "f4.desc": "Identifica qué pacientes están perdiendo el compromiso antes de que se pierdan los ingresos.",
+    "journey.label": "La Diferencia",
+    "journey.title": "¿Qué ocurre después de la consulta?",
+    "journey.without": "Sin OvusCare",
+    "journey.with": "Con OvusCare",
+    "journey.w1": "Consulta",
+    "journey.w2": "Las preguntas quedan sin respuesta",
+    "journey.w3": "La paciente pospone el siguiente paso",
+    "journey.w4": "Oportunidad de ingresos perdida",
+    "journey.o2": "Anna hace seguimiento automáticamente",
+    "journey.o3": "Preguntas respondidas. Paciente tranquila.",
+    "journey.o4": "El tratamiento comienza ✓",
+    "roi.label": "Los Números",
+    "roi.title": "Si solo 5 pacientes adicionales inician tratamiento al mes:",
+    "roi.point1": "La tasa de abandono disminuye",
+    "roi.point2": "Más ciclos de FIV iniciados",
+    "roi.point3": "Más ingresos por tratamiento",
+    "roi.point4": "Mejores resultados para las pacientes",
+    "why.label": "Por Qué Las Clínicas Eligen OvusCare",
+    "why.title": "Cero fricción para empezar",
+    "why.p1.title": "Sin app para pacientes",
+    "why.p1.desc": "Las pacientes usan WhatsApp, una app que ya tienen. Cero fricción de incorporación.",
+    "why.p2.title": "Listo en minutos",
+    "why.p2.desc": "Sin necesidad de departamento IT. Sin configuración compleja. Añade una paciente y activa — eso es todo.",
+    "why.p3.title": "Funciona junto a tu flujo de trabajo",
+    "why.p3.desc": "OvusCare no reemplaza tus sistemas. Llena el vacío entre citas — nada más.",
+    "how.label": "Cómo Funciona",
+    "how.title": "En funcionamiento en minutos",
+    "how.subtitle": "Sin configuración técnica. Sin app para las pacientes. Solo añade una paciente y activa.",
+    "step1.title": "Paciente añadida",
+    "step1.desc": "La clínica introduce los datos en segundos — nombre, etapa, recomendaciones del médico, número de WhatsApp.",
+    "step2.title": "Anna activada",
+    "step2.desc": "Un interruptor activa el asistente. La paciente recibe un mensaje de bienvenida y el primer vídeo personalizado automáticamente.",
+    "step3.title": "Apoyo continuo",
+    "step3.desc": "Anna responde preguntas 24/7, envía contenido según el calendario. La clínica lo ve todo en tiempo real.",
+    "how.note": "Sin app para instalar. Sin configuración técnica. Funciona vía WhatsApp.",
+    "demo.label": "Producto en Vivo",
+    "demo.title": "Construido y funcionando en app.ovuscare.com",
+    "demo.subtitle": "Un producto real, no una maqueta. Véalo en vivo antes de comprometerse.",
+    "demo.screen1": "Panel de la clínica\nvisión general de pacientes en tiempo real",
+    "demo.screen2": "Ficha de paciente\nhistorial de chat, vídeos, compromiso",
+    "demo.note": "Demo en vivo disponible en <a href='https://app.ovuscare.com' target='_blank'>app.ovuscare.com</a>",
+    "pilot.label": "Programa Piloto",
+    "pilot.title": "Únase a nuestro programa de clínicas asociadas",
+    "pilot.subtitle": "Más pacientes completando pruebas. Más segundas citas. Menos llamadas de ansiedad a tu personal.",
+    "pilot.free.tag": "Primeros 2 meses gratis",
+    "pilot.free.title": "Todo incluido",
+    "pilot.free.sub": "Sin compromiso. Cancela cuando quieras.",
+    "pilot.check1": "Acceso completo al panel de la clínica",
+    "pilot.check2": "Asistente IA Anna para todas las pacientes",
+    "pilot.check3": "Mensajes de vídeo personalizados",
+    "pilot.check4": "Analíticas y métricas de compromiso",
+    "pilot.check5": "Soporte directo del equipo OvusCare",
+    "pilot.after.label": "Condiciones para su clínica",
+    "pilot.after.headline": "Condiciones adaptadas a su clínica.",
+    "pilot.after.desc": "Cada clínica es única. Hablaremos del formato de colaboración y encontraremos la solución óptima para usted.",
+    "pilot.after.cta": "Agendar una llamada →",
+    "pilot.bottom": "Riesgo cero. Sin compromiso a largo plazo. Los datos de tus pacientes son tuyos.",
+    "pilot.cta": "Reservar una demo →",
+    "footer.cta": "Reservar una demo",
+    "modal.label": "Enviar un mensaje",
+    "modal.title": "Te responderemos en 24 horas",
+    "modal.prefer": "¿Prefieres una llamada? <a href='https://calendly.com/je-djomina/ovuscare-demo' target='_blank' style='color:#0D9488'>Reservar hora →</a>",
+    "modal.name": "Tu nombre",
+    "modal.clinic": "Nombre de la clínica",
+    "modal.email": "Correo electrónico",
+    "modal.submit": "Enviar →",
+    "modal.success.title": "¡Mensaje enviado!",
+    "modal.success.desc": "Te contactaremos en 24 horas."
+  }
+};
+
+let currentLang = 'en';
+
+function toggleLangDropdown() {
+  const btn = document.getElementById('lang-main-btn');
+  const dropdown = document.getElementById('lang-dropdown');
+  btn.classList.toggle('open');
+  dropdown.classList.toggle('open');
+}
+
+function selectLang(lang, label) {
+  document.getElementById('lang-current-label').textContent = label;
+  document.getElementById('lang-main-btn').classList.remove('open');
+  document.getElementById('lang-dropdown').classList.remove('open');
+  document.querySelectorAll('.lang-dropdown-item').forEach(item => {
+    item.classList.toggle('active', item.getAttribute('data-lang') === lang);
+  });
+  applyTranslations(lang);
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  const switcher = document.getElementById('lang-switcher-nav');
+  if (switcher && !switcher.contains(e.target)) {
+    document.getElementById('lang-main-btn')?.classList.remove('open');
+    document.getElementById('lang-dropdown')?.classList.remove('open');
+  }
+});
+
+function applyTranslations(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  if (!t) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.innerHTML = t[key];
+  });
+  // Update footer lang buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+}
+
+// Footer lang buttons
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.getAttribute('data-lang');
+    const labels = {en:'EN', ru:'RU', lv:'LV', es:'ES'};
+    document.getElementById('lang-current-label').textContent = labels[lang] || 'EN';
+    applyTranslations(lang);
+  });
+});
+
+function submitForm() {
+  const name = document.getElementById('f-name').value;
+  const clinic = document.getElementById('f-clinic').value;
+  const email = document.getElementById('f-email').value;
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  window.location.href = `mailto:jelena@ovuscare.com?subject=Demo Request from ${clinic || name}&body=Name: ${name}%0AClinic: ${clinic}%0AEmail: ${email}`;
+  document.getElementById('form-fields').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+// Sticky nav
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Fade in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+<!-- CONTACT MODAL -->
+<div id="contact-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--white);border-radius:16px;padding:2.5rem;max-width:480px;width:100%;position:relative">
+    <button onclick="document.getElementById('contact-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted);line-height:1">×</button>
+    <div style="font-size:.75rem;font-weight:600;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin-bottom:.75rem" data-i18n="modal.label">Send a message</div>
+    <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--dark);margin-bottom:.5rem" data-i18n="modal.title">We'll get back to you within 24 hours</h3>
+    <p style="font-size:.875rem;color:var(--muted);margin-bottom:1.5rem" data-i18n="modal.prefer">Prefer a call? <a href="https://calendly.com/je-djomina/ovuscare-demo" target="_blank" style="color:var(--green)">Book a time directly →</a></p>
+    <div id="form-fields">
+      <div style="margin-bottom:1rem">
+        <label style="font-size:.8rem;font-weight:500;color:var(--dark);display:block;margin-bottom:.4rem" data-i18n="modal.name">Your name</label>
+        <input id="f-name" type="text" placeholder="Dr. Anna Schmidt" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s" onfocus="this.style.borderColor='#0D9488'" onblur="this.style.borderColor='#E2E8F0'">
+      </div>
+      <div style="margin-bottom:1rem">
+        <label style="font-size:.8rem;font-weight:500;color:var(--dark);display:block;margin-bottom:.4rem" data-i18n="modal.clinic">Clinic name</label>
+        <input id="f-clinic" type="text" placeholder="Fertility Clinic Berlin" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s" onfocus="this.style.borderColor='#0D9488'" onblur="this.style.borderColor='#E2E8F0'">
+      </div>
+      <div style="margin-bottom:1.5rem">
+        <label style="font-size:.8rem;font-weight:500;color:var(--dark);display:block;margin-bottom:.4rem" data-i18n="modal.email">Email</label>
+        <input id="f-email" type="email" placeholder="anna@fertilityclinic.de" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s" onfocus="this.style.borderColor='#0D9488'" onblur="this.style.borderColor='#E2E8F0'">
+      </div>
+      <button onclick="submitForm()" style="width:100%;background:var(--green);color:white;border:none;padding:14px;border-radius:8px;font-size:.95rem;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#14B8A6'" onmouseout="this.style.background='#0D9488'" data-i18n="modal.submit">Send Message →</button>
+    </div>
+    <div id="form-success" style="display:none;text-align:center;padding:2rem 0">
+      <div style="font-size:2.5rem;margin-bottom:1rem">✅</div>
+      <h4 style="font-size:1.1rem;font-weight:600;color:var(--dark);margin-bottom:.5rem" data-i18n="modal.success.title">Message sent!</h4>
+      <p style="font-size:.875rem;color:var(--muted)" data-i18n="modal.success.desc">We'll be in touch within 24 hours.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
