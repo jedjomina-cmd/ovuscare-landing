@@ -131,9 +131,7 @@ section{padding:80px 2rem}
 .browser-dot.yellow{background:#FFBD2E}
 .browser-dot.green{background:#28C840}
 .browser-url{margin-left:8px;font-size:11px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:3px 12px;border-radius:4px;flex:1}
-.browser-content{height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.75rem}
-.browser-content-icon{font-size:2rem;opacity:.3}
-.browser-content-label{font-size:.8rem;color:rgba(255,255,255,.4);text-align:center}
+.browser-screenshot{width:100%;height:280px;display:block;object-fit:cover;object-position:top}
 .demo-note{text-align:center;color:rgba(255,255,255,.4);font-size:.825rem;margin-top:1rem}
 .demo-note a{color:var(--green-mid);text-decoration:none}
 .demo-note a:hover{text-decoration:underline}
@@ -453,7 +451,7 @@ footer{background:var(--dark);padding:3rem 2rem;border-top:1px solid rgba(255,25
           <div class="browser-dot green"></div>
           <div class="browser-url">app.ovuscare.com/patients</div>
         </div>
-        <img src="/images/dashboard-screenshot.png" alt="Clinic Dashboard — real-time patient overview" style="width:100%;display:block">
+        <img src="/images/dashboard-screenshot.png" alt="Clinic Dashboard — real-time patient overview" class="browser-screenshot">
       </div>
       <div class="browser-window fade-in">
         <div class="browser-bar">
@@ -462,7 +460,7 @@ footer{background:var(--dark);padding:3rem 2rem;border-top:1px solid rgba(255,25
           <div class="browser-dot green"></div>
           <div class="browser-url">app.ovuscare.com/patients/p001</div>
         </div>
-        <img src="/images/patient-screenshot.png" alt="Patient card — chat history, videos, engagement" style="width:100%;display:block">
+        <img src="/images/patient-screenshot.png" alt="Patient card — chat history, videos, engagement" class="browser-screenshot">
       </div>
     </div>
     <p class="demo-note" data-i18n="demo.note">Live demo available at <a href="https://app.ovuscare.com" target="_blank">app.ovuscare.com</a></p>
